@@ -27,28 +27,31 @@ INSERT INTO book VALUES (112,'Cloud Computing Essentials','Networking',880.00, 4
 COMMIT;
 
 DECLARE
-    CURSOR c_publisher IS
-        SELECT pub_name, city, country
-        FROM publisher;
+    CURSOR c_book IS
+        SELECT book_id, title, price
+        FROM book
+        WHERE price > 500;
 
-    v_publisher c_publisher%ROWTYPE;
+    v_book_id book.book_id%TYPE;
+    v_title book.title%TYPE;
+    v_price book.price%TYPE;
+
 BEGIN
-    OPEN c_publisher;
+    OPEN c_book;
 
     LOOP
-        FETCH c_publisher INTO v_publisher;
+        FETCH c_book INTO v_book_id, v_title, v_price;
 
-        EXIT WHEN c_publisher%NOTFOUND;
+        EXIT WHEN c_book%NOTFOUND;
 
         DBMS_OUTPUT.PUT_LINE(
-            'Name: ' || v_publisher.pub_name ||
-            ' | City: ' || v_publisher.city ||
-            ' | Country: ' || v_publisher.country
+            c_book%ROWCOUNT || '. ' ||
+            'Book ID: ' || v_book_id ||
+            ' | Title: ' || v_title ||
+            ' | Price: Rs.' || v_price
         );
     END LOOP;
 
-    CLOSE c_publisher;
+    CLOSE c_book;
 END;
 /
-
-
