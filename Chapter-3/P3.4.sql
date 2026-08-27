@@ -53,5 +53,5 @@ BEGIN
     END LOOP;
 
     CLOSE c_book;
-END;
+ENd;
 /
